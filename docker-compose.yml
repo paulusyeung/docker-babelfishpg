@@ -1,0 +1,14 @@
+# docker run --restart always --name babelfishpg -d -p 1433:1433 -p 5432:5432 jonathanpotts/babelfishpg -u nxstudio -p nx@82279602
+version: '3.8'
+services:
+  pg:
+    container_name: babelfishpg
+    image: jonathanpotts/babelfishpg:latest
+    # or
+    # build: .
+    # image: my/babelfishpg
+    restart: always
+    ports:
+      - '1433:1433'
+      - '5432:5432'
+    entrypoint: ["/start.sh", "-u", "nxstudio", "-p", "nx@82279602"]

@@ -38,7 +38,9 @@ RUN mkdir antlr4/build
 
 WORKDIR /workplace/antlr4/build
 
+# line 43 係我加嘅，由 git 改為 https protocol
 RUN cmake .. -DANTLR_JAR_LOCATION=/usr/local/lib/antlr-4.9.2-complete.jar -DCMAKE_INSTALL_PREFIX=/usr/local -DWITH_DEMO=True
+RUN git config --global url."https://".insteadOf git://
 RUN make && make install
 RUN cp /usr/local/lib/libantlr4-runtime.so.4.9.2 /usr/local/pgsql/lib
 
@@ -74,11 +76,11 @@ RUN apk add libxml2 icu openssl libuuid \
 # Create postgres user
 RUN addgroup -S postgres && adduser -S postgres -G postgres
 
-# Enable data volume
+# Enable data volume, 我將 VOLUME 移到最後
 RUN mkdir /data
-VOLUME /data
 RUN mkdir /data/postgres
 RUN chown postgres /data/postgres
+VOLUME /data
 
 # Change to postgres user
 USER postgres
@@ -86,6 +88,6 @@ USER postgres
 # Expose ports
 EXPOSE 1433 5432
 
-# Set entry point
+# Set entry point, 要先：chmod +w ./start.sh
 ADD start.sh /
 ENTRYPOINT [ "/start.sh" ]

@@ -20,11 +20,13 @@ do
 done
 
 # Initialize database cluster if it does not exist
+# line 29 係我加嘅：-c "ALTER ROLE ${USERNAME} WITH SUPERUSER;" \
 [ ! -f /data/postgres/postgresql.conf ] && ./initdb -D /data/postgres \
   && printf "# Allow all connections\nhost\tall\t\tall\t\t0.0.0.0/0\t\tmd5\nhost\tall\t\tall\t\t::0/0\t\t\tmd5\n" >> /data/postgres/pg_hba.conf \
   && printf "\n# Configure babelfish\nshared_preload_libraries = 'babelfishpg_tds'\n" >> /data/postgres/postgresql.conf \
   && ./pg_ctl -D /data/postgres start \
   && ./psql -c "CREATE USER ${USERNAME} WITH CREATEDB CREATEROLE PASSWORD '${PASSWORD}' INHERIT;" \
+    -c "ALTER ROLE ${USERNAME} WITH SUPERUSER;" \
     -c "DROP DATABASE IF EXISTS ${DATABASE};" \
     -c "CREATE DATABASE ${DATABASE} OWNER ${USERNAME};" \
     -c "\c ${DATABASE}" \
