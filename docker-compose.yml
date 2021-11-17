@@ -3,8 +3,9 @@ version: '3.8'
 services:
   pg:
     container_name: babelfishpg
+    # 用原作者隻 docker image
     image: jonathanpotts/babelfishpg:latest
-    # or
+    # 或者用原作者啲 code 自己 build 一隻 image
     # build: .
     # image: my/babelfishpg
     restart: always
