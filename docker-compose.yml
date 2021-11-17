@@ -1,4 +1,4 @@
-# docker run --restart always --name babelfishpg -d -p 1433:1433 -p 5432:5432 jonathanpotts/babelfishpg -u nxstudio -p nx@82279602
+# docker run --restart always --name babelfishpg -d -p 1433:1433 -p 5432:5432 jonathanpotts/babelfishpg -u db-username -p db-userpassword
 version: '3.8'
 services:
   pg:
@@ -12,4 +12,4 @@ services:
     ports:
       - '1433:1433'
       - '5432:5432'
-    entrypoint: ["/start.sh", "-u", "nxstudio", "-p", "nx@82279602"]
+    entrypoint: ["/start.sh", "-u", "db-username", "-p", "db-userpassword"]
